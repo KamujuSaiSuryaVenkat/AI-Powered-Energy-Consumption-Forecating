@@ -1,278 +1,144 @@
-# 🛡️ AI-Powered Cybersecurity Threat Detection System
+# AI-Powered Energy Forecasting System
 
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![Machine Learning](https://img.shields.io/badge/ML-Scikit--Learn-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Status](https://img.shields.io/badge/Project-Completed-brightgreen)
+A machine learning project for forecasting energy usage from time-series CSV data, with:
+- a training pipeline,
+- a Flask prediction API,
+- and a Streamlit dashboard for interactive analysis.
 
----
+## Project Structure
 
-## 📌 Overview
+- `main.py`: End-to-end training pipeline (load data, preprocess, feature engineering, train, evaluate, save model, plots).
+- `app.py`: Flask API for model inference (`/predict`).
+- `streamlit_app.py`: Dashboard for prediction, anomaly detection, and insights.
+- `src/`: Core modules (`data_loader`, `preprocess`, `feature_engineering`, `model`, `evaluate`, `anomaly`).
+- `data/`: Input CSV files.
+- `models/`: Saved model artifacts.
+- `outputs/`: Generated plots from training.
 
-The **AI-Powered Cybersecurity Threat Detection System** is a full-stack project designed to detect malicious network activities using **Machine Learning and Anomaly Detection techniques**.
+## Requirements
 
-This system simulates a **real-world Security Operations Center (SOC)** by analyzing network traffic, identifying threats, and generating alerts through a **Flask API and Streamlit dashboard**.
+- Python 3.10+ recommended
+- Pip
 
----
-
-## ❗ Problem Statement
-
-Cybersecurity threats are rapidly evolving, and traditional rule-based systems often fail to detect:
-
-* Unknown attacks
-* Zero-day vulnerabilities
-* Anomalous traffic patterns
-
-There is a need for an **intelligent, scalable system** that can:
-
-* Detect known threats using ML
-* Identify unknown anomalies
-* Provide real-time alerts and insights
-
----
-
-## 🏭 Industry Relevance
-
-This project replicates real-world cybersecurity tools such as:
-
-* Intrusion Detection Systems (IDS)
-* Security Information and Event Management (SIEM) systems
-* SOC dashboards
-
-### 💼 Applications:
-
-* Enterprise network monitoring
-* Threat intelligence platforms
-* Incident response systems
-* Cybersecurity analytics
-
----
-
-## 🧠 Tech Stack
-
-### 🔹 Programming
-
-* Python
-
-### 🔹 Machine Learning
-
-* Scikit-learn (Random Forest, Isolation Forest)
-
-### 🔹 Data Processing
-
-* Pandas, NumPy
-
-### 🔹 Visualization
-
-* Matplotlib, Seaborn, Plotly
-
-### 🔹 Backend
-
-* Flask API
-
-### 🔹 Frontend
-
-* Streamlit Dashboard
-
-### 🔹 Tools
-
-* Git, GitHub
-
----
-
-## 📊 Dataset
-
-* Dataset Used: **NSL-KDD**
-* Type: Simulated network traffic dataset
-* Contains:
-
-  * Normal traffic
-  * DoS attacks
-  * Probe attacks
-  * Intrusion attempts
-
-### 📌 Key Features:
-
-* duration
-* protocol_type
-* service
-* src_bytes
-* dst_bytes
-* count
-* serror_rate
-
----
-
-## 🏗️ Architecture
-
-```id="0s3rd3"
-[User Input / CSV Upload]
-            ↓
-   [Streamlit Dashboard]
-            ↓ (HTTP Request)
-        [Flask API]
-            ↓
-   [Scaler + ML Model]
-            ↓
-[Threat Detection + Classification]
-            ↓
-   [Alerts + JSON Response]
-            ↓
-   [Dashboard Visualization]
-```
-
----
-
-## ⚙️ Installation
-
-### 🔹 Clone Repository
-
-```bash
-git clone https://github.com/your-username/AI-Cybersecurity-Threat-Detection-System.git
-cd AI-Cybersecurity-Threat-Detection-System
-```
-
----
-
-### 🔹 Create Virtual Environment
-
-```bash
-python -m venv venv
-venv\Scripts\activate   # Windows
-```
-
----
-
-### 🔹 Install Dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### Screenshots of the project
 
-## ▶️ Usage
+### Dataset Preview
+![dataset_pre](assets/dataset_preview.png)
 
----
+### Dashboard
+![dashboard](assets/dashboard_1.png)
+![dashboard](assets/dashboard_2.png)
 
-### 🚀 Run Flask API
+### DataSet Output
+![Dataset_Output](assets/dataset1.png)
+![Dataset_Output](assets/dataset2.png)
+![Dataset_Output](assets/dataset3.png)
+
+## Data Expectations
+
+The loader scans all CSV files in `data/` and expects:
+- one datetime-like column (name containing `datetime`),
+- one energy column (renamed internally to `Energy`).
+
+Each file is treated as a region and merged into one dataset.
+
+## Run the Project
+
+### 1. Train the Model
 
 ```bash
-cd api
-py app.py
+python main.py
 ```
 
-👉 Runs at:
+This will:
+- train the forecasting model,
+- print metrics (RMSE and R2),
+- save model to `models/energy_model.pkl`,
+- save plots to `outputs/time_series.png` and `outputs/actual_vs_pred.png`.
 
-```
-http://127.0.0.1:5000/
-```
-
----
-
-### 📊 Run Dashboard
+### 2. Start the Streamlit Dashboard
 
 ```bash
-cd ..
-python -m streamlit run dashboard/app.py
+python -m streamlit run streamlit_app.py
 ```
 
-👉 Runs at:
+Default local URL is usually:
+- `http://localhost:8501`
 
+If port 8501 is busy, Streamlit may use another port (for example 8502).
+
+### 3. Start the Flask API (Optional)
+
+```bash
+python app.py
 ```
-http://localhost:8501
+
+API runs at:
+- `http://127.0.0.1:5000/`
+
+## API Usage
+
+### Health
+
+`GET /`
+
+Example response:
+
+```json
+{
+  "message": "Energy Forecasting API Running",
+  "status": "OK"
+}
 ```
 
----
+### Prediction
 
-### 📁 Optional: Upload CSV
+`POST /predict`
 
-* Upload `test_large_network_data.csv`
-* Perform batch threat detection
+Request JSON:
 
----
+```json
+{
+  "hour": 12,
+  "day": 3,
+  "month": 6,
+  "lag_1": 10000,
+  "lag_24": 12000,
+  "rolling_mean_24": 11000
+}
+```
 
-## 📈 Results
+Response JSON:
 
-* Achieved **~90–95% accuracy** on classification
-* Successfully detected:
+```json
+{
+  "predicted_energy": 10543.27,
+  "timestamp": "2026-04-15 13:45:02.123456",
+  "status": "success"
+}
+```
 
-  * DoS attacks
-  * Network scans
-  * Anomalous traffic
+## Dashboard Features
 
-### ✅ Outputs:
+- Manual prediction via sidebar inputs
+- CSV upload for custom data
+- Energy trend visualization
+- Basic anomaly detection (z-score style thresholding)
+- Peak-hour and summary insights
+- Region-wise view (when default data includes region labels)
 
-* Threat classification
-* Severity levels
-* Real-time alerts
-* Bulk CSV analysis
+## Troubleshooting
 
----
+- If dashboard/API says model is missing, run `python main.py` first.
+- If Streamlit port is occupied, use the URL shown in terminal.
+- If dependencies fail to install, confirm your Python/pip path and virtual environment activation.
 
-## 📸 Screenshots
+## License
 
-### 📊 Dataset Preview
-
-![Dataset](assets/dataset_preview.png)
-
-
-### DataSet Based Output
-
-![Result](assets/dataset1.png)
-![Result](assets/dataset2.png)
-![Result](assets/dataset3.png)
-
-
-
-
-
-
-### 🛡️ Dashboard
-
-![Dashboard](assets/dashboard_1.png)
-![Dashboard](assets/dashboard_2.png)
-
-### 📊 Bulk Analysis
-
-![Bulk](images/bulk_analysis.png)
-
----
-
-## 🎯 Learning Outcomes
-
-* ✅ Understanding of cybersecurity threat patterns
-* ✅ Implementation of ML-based intrusion detection
-* ✅ Experience with anomaly detection techniques
-* ✅ Full-stack integration (Flask + Streamlit)
-* ✅ API development and real-time systems
-* ✅ GitHub project structuring and documentation
-
----
-
-## 🚀 Future Improvements
-
-* Real-time packet capture integration
-* Deep learning models (LSTM / Autoencoders)
-* Cloud deployment (AWS / Render)
-* Advanced SOC dashboard UI
-* User authentication system
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 💼 Author
-
-**Sai Surya Venkat Kamuju**
-Software Engineer
-
----
-
-## ⭐ Support
-
-If you found this project useful, please ⭐ the repository!
+See `LICENSE`.
