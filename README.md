@@ -219,8 +219,10 @@ http://localhost:8501
 
 ### DataSet Based Output
 
-![Result](assets/dataset_result1.png)
-![Result](assets/dataset_result2.png)
+![Result](assets/dataset_1.png)
+![Result](assets/dataset_2.png)
+![Result](assets/dataset_3.png)
+
 
 
 
@@ -228,9 +230,8 @@ http://localhost:8501
 
 ### 🛡️ Dashboard
 
-![Dashboard](assets/Dashboard_1.png)
-![Dashboard](assets/Dashboard_2.png)
-![Dashboard](assets/Dashboard_3.png)
+![Dashboard](assets/dashboard_1.png)
+![Dashboard](assets/dashboard_2.png)
 
 ### 📊 Bulk Analysis
 
