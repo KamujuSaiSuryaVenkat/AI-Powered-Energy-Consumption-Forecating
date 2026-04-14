@@ -219,9 +219,9 @@ http://localhost:8501
 
 ### DataSet Based Output
 
-![Result](assets/dataset_1.png)
-![Result](assets/dataset_2.png)
-![Result](assets/dataset_3.png)
+![Result](assets/dataset1.png)
+![Result](assets/dataset2.png)
+![Result](assets/dataset3.png)
 
 
 
